@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		v-once单向数据绑定;
+	-->
+	<div id="app">
+  		<span>{{ message }}</span>  
+  		<span v-once>{{ message1 }} </span>
+  		<span v-html='raw_html'></span>
+	</div>
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		var app = new Vue({
+			el:'#app',
+			data:{
+				message:'Hello Vue',
+				message1:'Hello Vue',
+				raw_html:'<span style="color:red;">Hello Vuejs2!!</span>'
+			}
+		})
+	</script>
+</body>
+</html>

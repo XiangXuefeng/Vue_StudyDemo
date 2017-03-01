@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>列表过渡</title>
+	<style>
+		.list-item {
+		  display: inline-block;
+		  margin-right: 10px;
+		}
+		/*定义进入过渡的结束状态,定义离开过渡的开始状态*/
+		.list-enter-active, .list-leave-active {
+		  transition: all 5s;
+		}
+		/*定义进入过渡的开始状态,定义离开过渡的结束状态*/
+		.list-enter, .list-leave-active {
+		  opacity:1;
+		  transform: translateY(500px);
+		}
+	</style>
+</head>
+<body>
+	<!--
+	列表过渡
+	目前为止，关于过渡我们已经讲到：
+	单个节点
+	一次渲染多个节点
+	那么怎么同时渲染整个列表，比如使用 v-for ？在这种场景中，使用 <transition-group> 组件。在我们深入例子之前，先了解关于这个组件的几个特点：
+	不同于 <transition>， 它会以一个真实元素呈现：默认为一个 <span>。你也可以通过 tag 特性更换为其他元素。
+	元素 一定需要 指定唯一的 key 特性值
+	-->
+	<div id="list-demo" class="demo">
+	  <button v-on:click="add">Add</button>
+	  <button v-on:click="remove">Remove</button>
+	  <transition-group name="list" tag="p">
+	    <span v-for="item in items" v-bind:key="item" class="list-item">
+	      {{ item }}
+	    </span>
+	  </transition-group>
+	</div>
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		new Vue({
+		  el: '#list-demo',
+		  data: {
+		    items: [1,2,3,4,5,6,7,8,9],
+		    nextNum: 10
+		  },
+		  methods: {
+		    randomIndex: function () {
+		      return Math.floor(Math.random() * this.items.length)
+		    },
+		    add: function () {
+		      this.items.splice(this.randomIndex(), 0, this.nextNum++)
+		    },
+		    remove: function () {
+		      this.items.splice(this.randomIndex(), 1)
+		    },
+		  }
+		})
+	</script>
+</body>
+</html>

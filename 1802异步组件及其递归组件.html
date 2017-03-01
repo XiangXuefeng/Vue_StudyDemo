@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src='https://vuejs.org/js/vue.js'></script>
+    <meta charset="UTF-8">
+    <title>5-7</title>
+    <style>
+    .fade-transition {
+        transition: opacity .3s ease;
+    }
+    .fade-enter,
+    .fade-leave {
+        opacity: 0;
+    }
+    .box {
+        width: 250px;
+        border: 1px solid #9325BC;
+        padding: 10px;
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .box:hover {
+        -moz-box-shadow: 0 0 10px #ccc;
+        -webkit-box-shadow: 0 0 10px #ccc;
+        box-shadow: 0 0 10px #ccc;
+        border: 10px solid #9325BC;
+    }
+    </style>
+</head>
+
+<body>
+    <h3>正常组件</h3>
+    <div id="app">
+        <my-component @click="doThis('click')" @mouseover="onMouseOver('mouseover')">
+            <img slot="icon" src="http://vuejs.org.cn/images/logo.png" width='200'>
+            <p slot="main-text">Hello!</p>
+        </my-component>
+        <async-example-3></async-example-3>
+        <async-example-5></async-example-5>
+    </div>
+    <br>
+	<!--
+    	递归组件
+    	
+		组件在它的模板内可以递归地调用自己，不过，只有当它有 name 选项时才可以：
+		name: 'unique-name-of-my-component'
+		当你利用Vue.component全局注册了一个组件, 全局的ID作为组件的 name 选项，被自动设置.
+		Vue.component('unique-name-of-my-component', {
+		  // ...
+		})
+		如果你不谨慎, 递归组件可能导致死循环:
+		name: 'stack-overflow',
+		template: '<div><stack-overflow></stack-overflow></div>'
+		上面组件会导致一个错误 “max stack size exceeded” ，所以要确保递归调用有终止条件 (比如递归调用时使用 v-if 并让他最终返回 false )。
+
+    -->
+    <script>
+    Vue.component('my-component', {
+        template: `
+            <div class='box'>
+            <slot name="icon">{bar}</slot>
+            <slot name="main-text">{foo}</slot>
+            </div>
+        `,
+       // props: ['foo', 'bar'],
+        data: function() {
+            return {
+                items: {
+                    a: '1', // 子组件的作用域跟父组件的作域是独立不连系
+                    b: '2',
+                    c: '3'
+                }
+            }
+        }
+    });
+    Vue.component('async-example-3',
+        function(resolve, reject) {
+            setTimeout(function() {
+                // 乱数一下下
+                var r=Math.random() * 10
+                if (r<=5) {
+                    resolve({
+                        template: '<h3> 3秒组件完成 </h3> '
+                    })
+                } else {
+                    reject(
+                        'r:'+ r +',故意搞失败的，不然不会了解  reject , resolove 的功用'
+                    )
+                }
+                console.log('3秒后组件 ok,r:'+r);
+            },3000) // setTimeout
+        } // function(r,r)
+    ); // Vue.component
+    Vue.component('async-example-5', function(resolve, reject) {
+        setTimeout(function() {
+            resolve({
+            template: `
+            <h3>5秒后组件</h3>
+            `
+            });
+            console.log('5秒后组件 ok');
+        }, 5000)
+    });
+    new Vue({
+        el: '#app',
+        data: {
+            items: {
+                'a': '4',
+                'b': '5',
+                'c': '6'
+            }
+        },
+        methods: {
+            'doThis': function(msg) {
+                console.log(msg);
+            },
+            'onMouseOver': function(msg) {
+                console.log(msg)
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>

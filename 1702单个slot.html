@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		单个slot
+		除非子组件模板包含至少一个 <slot> 插口，否则父组件的内容将会被丢弃。当子组件模板只有一个没有属性的 slot 时，父组件整个内容片段将插入到 slot 所在的 DOM 位置，并替换掉 slot 标签本身。
+		最初在 <slot> 标签中的任何内容都被视为备用内容。备用内容在子组件的作用域内编译，并且只有在宿主元素为空，且没有要插入的内容时才显示备用内容。
+	-->
+	<div id="app">
+  		<div id="vm">
+  			单个slot:<br />
+	        <my-component>
+	            <p>4.~view 层~</p>
+	            <p>5.This is some original content</p>
+	            <p>6.This is some more original content</p>
+	        </my-component>
+	        <hr />
+			<!--如果没有内容分发;-->
+	        <my-component></my-component>
+	    </div>
+	</div>
+	<!--绑定之外-->
+ 	<template id="my-component">
+        <div>
+            <h1>1.~template 层~</h1>
+            <h1>2.This is my component!</h1>
+            <slot>
+                3.view 层中的 内容，会显示在这里！
+            </slot>
+        </div>
+    </template>
+
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		Vue.component('my-component', {
+        	template: '#my-component',
+    	});
+		var app = new Vue({
+			el:'#app'
+		})
+	</script>
+</body>
+</html>

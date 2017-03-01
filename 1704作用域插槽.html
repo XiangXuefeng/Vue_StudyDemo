@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		2.1.0 新增
+
+		作用域插槽是一种特殊类型的插槽，用作使用一个（能够传递数据到）可重用模板替换已渲染元素。
+		在子组件中，只需将数据传递到插槽，就像你将 prop 传递给组件一样：
+
+作用域插槽更具代表性的用例是列表组件，允许组件自定义应该如何渲染列表每一项：
+  <slot name="item" v-for="item in items" :text="item.text"></slot>
+
+	-->
+
+	<div class="parent">
+	  <child>
+	    <template scope="props">
+	      <span>hello from parent,</span>
+	      <span>{{ props.text }}</span>
+	    </template>
+	  </child>
+	</div>
+	<!--绑定之外-->
+ 	<template id="my-component">
+ 		<!--
+			必须使用一个div去包裹起来;
+ 		-->
+        <div class="child">
+  			<slot text="hello from child"></slot>
+		</div>
+    </template>
+
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		Vue.component('child', {
+        	template: '#my-component',
+    	});
+		var app = new Vue({
+			el:'.parent'
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>组件</title>
+</head>
+<body>
+	<!--
+		组件可以为 props 指定验证要求。当组件给其他人使用时这很有用，因为这些验证要求构成了组件的 API，确保其他人正确地使用组件。此时 props 的值是一个对象，包含验证要求：
+	-->
+	 <div id="app">
+	 	1.
+        <input v-model="parentMsg">
+        <br>
+        2.
+        <example :prop-a="100" prop-b="100" prop-c="100" :prop-d="100"  :prop-f="13" ></example>
+    </div>
+    <template id="pp">
+	    <ul>
+	        <li>propA : {{propA+1}}</li>
+	        <li>propB : {{propB+1}}</li>
+	        <li>propC : {{propC+1}}</li>
+	        <li>propD : {{propD+1}}<pre>{{ propD | json }}</pre></li>
+	        <li>propE : {{propE+1}}<pre>{{ propE | json }}</pre></li>
+	        <li>propF : {{propF+1}}</li>
+	    </ul>
+    </template>
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		/*
+			type 可以是下面原生构造器：
+			String
+			Number
+			Boolean
+			Function
+			Object
+			Array
+
+			type 也可以是一个自定义构造器，使用 instanceof 检测。
+			当 prop 验证失败了，如果使用的是开发版本会抛出一条警告。
+		 */
+		Vue.component('example', {
+		 
+		    props: {
+		    // 基础类型检测 （`null` 意思是任何类型都可以）
+		    propA: Number,
+		    // 多种类型
+		    propB: [String, Number],
+		    // 必传且是字符串
+		    propC: {
+		      type: String,
+		      required: true
+		    },
+		    // 数字，有默认值
+		    propD: {
+		      type: Number,
+		      default: 100
+		    },
+		    // 数组／对象的默认值应当由一个工厂函数返回
+		    propE: {
+		      type: Object,
+		      default: function () {
+		        return { message: 'hello' }
+		      }
+		    },
+		    // 自定义验证函数
+		    propF: {
+		      validator: function (value) {
+		        return value > 10
+		      }
+		    }
+		  },
+		   template:'#pp'
+		});
+		new Vue({
+			el: '#app',
+			data:{
+				parentMsg:'Hello Vue'
+			}	
+		})
+	</script>
+</body>
+</html>

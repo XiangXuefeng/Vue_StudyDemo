@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		条件渲染
+	-->
+	<div id="app">
+  		<h1 v-if="ok">Yes</h1>
+		<h1 v-else>No</h1>
+
+		<template v-if="ok">
+		  <h1>Title</h1>
+		  <p>Paragraph 1</p>
+		  <p>Paragraph 2</p>
+		</template>
+		<!--
+			使用的是display:none;
+			注意 v-show不支持<template>语法。
+		-->
+		<h1 v-show="ok">Hello!</h1> 
+	</div>
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		var app = new Vue({
+			el:'#app',
+			data:{
+				ok:true,
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>过渡</title>
+	<style>
+		.custom-appear-class{
+			background-color: red;
+			transform: translateX(200px) .3s ease;
+		}
+	</style>
+</head>
+<body>
+	<!--
+		自定义过渡类名
+
+		我们可以通过以下特性来自定义过渡类名：
+		enter-class
+		enter-active-class
+		leave-class
+		leave-active-class
+		他们的优先级高于普通的类名，这对于 Vue 的过渡系统和其他第三方 CSS 动画库，如 Animate.css 结合使用十分有用。
+		示例：
+
+	-->
+	<link href="https://unpkg.com/animate.css@3.5.1/animate.min.css" rel="stylesheet" type="text/css">
+	<div id="example-3">
+	  <button @click="show = !show">
+	    Toggle render
+	  </button>
+	  <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" />
+	    <p v-if="show">hello</p>
+	  </transition>
+
+	  可以在属性中声明 JavaScript 钩子<br />
+	  <transition
+		  v-on:before-enter="beforeEnter"
+		  v-on:enter="enter"
+		  v-on:after-enter="afterEnter"
+		  v-on:enter-cancelled="enterCancelled"
+		  v-on:before-leave="beforeLeave"
+		  v-on:leave="leave"
+		  v-on:after-leave="afterLeave"
+		  v-on:leave-cancelled="leaveCancelled"
+		>
+	  </transition><br />
+	  初始渲染的过渡
+	  可以通过 appear 特性设置节点的在初始渲染的过渡	
+	  这里默认和进入和离开过渡一样，同样也可以自定义 CSS 类名。
+	  <transition
+  appear
+  appear-class="custom-appear-class"
+  appear-active-class="custom-appear-active-class"
+>
+  <p v-if="show">hello</p>
+</transition><br />
+同时生效的进入和离开的过渡不能满足所有要求，所以 Vue 提供了 过渡模式
+in-out: 新元素先进行过渡，完成之后当前元素过渡离开。
+out-in: 当前元素先进行过渡，完成之后新元素过渡进入。
+用 out-in 重写之前的开关按钮过渡：
+<transition name="fade" mode="out-in">
+  <!-- ... the buttons ... -->
+</transition>
+
+<br />
+	</div>
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		new Vue({
+		  el: '#example-3',
+		  data: {
+		    show: true
+		  },methods: {
+			  // --------
+			  // 进入中
+			  // --------
+			  beforeEnter: function (el) {
+			    // ...
+			  },
+			  // 此回调函数是可选项的设置
+			  // 与 CSS 结合时使用
+			  enter: function (el, done) {
+			    // ...
+			    done()
+			  },
+			  afterEnter: function (el) {
+			    // ...
+			  },
+			  enterCancelled: function (el) {
+			    // ...
+			  },
+			  // --------
+			  // 离开时
+			  // --------
+			  beforeLeave: function (el) {
+			    // ...
+			  },
+			  // 此回调函数是可选项的设置
+			  // 与 CSS 结合时使用
+			  leave: function (el, done) {
+			    // ...
+			    done()
+			  },
+			  afterLeave: function (el) {
+			    // ...
+			  },
+			  // leaveCancelled 只用于 v-show 中
+			  leaveCancelled: function (el) {
+			    // ...
+			  }
+			}
+		})
+	</script>
+</body>
+</html>

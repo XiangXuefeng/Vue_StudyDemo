@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<!--
+	双向过滤器:*
+	Vue.filter('filterHtml',{
+	        read:function(input){ //model-view
+	            return input.replace(/<[^<+]>/g,'');
+	        },
+	        write:function(val){ //view -> model
+	            return val;
+	        }
+	});
+	数据 -> 视图
+	model -> view
+	view -> model
+-->
+	<div id="app">
+		<input type='text' v-model='msg'  />
+		{{msg | filterHtml}}
+	</div>
+
+	 <!-- 
+	 <script src='https://vuejs.org/js/vue.js'></script> 
+		vue2.0移除了所有的内置过滤器，并且不支持指令方式进行过滤;
+	 -->
+	 <script src='https://cdn.bootcss.com/vue/1.0.27/vue.js'></script>
+	<script>
+		Vue.filter('filterHtml',{
+			read:function(input){ //model -> view
+				return input.replace(/<[^<]+>/g,'');	
+			},
+			write:function(val){  //view -> model
+				console.log(val);
+				return val;
+			}
+		})
+		var app = new Vue({
+		   el:'#app',
+		   data:{
+		   	msg:'Hello Filter'
+		   }
+		})
+
+		
+	</script>
+</body>
+</html>

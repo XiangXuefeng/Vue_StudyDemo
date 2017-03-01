@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!-- Vue.js 允许你自定义过滤器，被用作一些常见的文本格式化。过滤器应该被添加在 mustache 插值的尾部，由“管道符”指定; 
+
+	Vue 2.x 中，过滤器只能在 mustache 绑定和 v-bind 表达式（从 2.1.0 开始支持）中使用，因为过滤器设计目的就是用于文本转换。为了在其他指令中实现更复杂的数据变换，你应该使用计算属性
+	-->
+	<div id="app">
+		{{message|uppercase }}
+  		<span v-bind:class ='message|uppercase'></span>
+  		<span v-if='boolean'>{{hi}}</span>
+  		<span v-on:click.prevent='doSomething'>点我点我</span>
+  		<a v-bind:href="url">{{text}}</a>
+
+  		<!-- 完整语法 -->
+		<a v-bind:href="url">{{text}}</a>
+		<!-- 缩写 -->
+		<a :href="url">{{text}}</a>
+
+		<!-- 完整语法 -->
+		<a v-on:click="doSomething">完整语法</a>
+		<!-- 缩写 -->
+		<a @click="doSomething">缩写语法</a>
+	</div>
+
+	 <script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		Vue.filter('uppercase', function(value) {
+		  if (!value) { return ''}
+		   value = value.toString();
+		   return value.charAt(0).toUpperCase() + value.slice(1)
+		})
+		var app = new Vue({
+		  el:'#app',
+		  data: {
+		  	boolean:false,
+		    message: 'hello vuejs',
+		    hi:'Hello',
+		    url:'http://www.baidu.com',
+		    text:'泰牛程序员'
+		  },methods:{
+				doSomething(){
+					console.log('doSomething');
+				}
+				//也可以使用
+				//addSport:function(){} 方式;
+			},
+		})
+
+	</script>
+</body>
+</html>

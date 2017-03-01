@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		使用x-template,增加组件的弹性
+	-->
+	<div id="app">
+        <my-component>
+            <h1>Hello Vue.js!</h1>
+        </my-component>
+        <!--区别-->
+        <div>-----萌萌的分割线------</div>
+        <my-component></my-component>
+    </div>
+    <!--模板引擎内容-->
+    <template id="myComponent">
+        <div class="content">
+            <h2>This is Component</h2>
+            <slot>如果没有分发内容，则显示slot中的内容</slot>
+            <p>Say Something....{{message}}</p>
+            <table><tr><td>table</td></tr></table>
+        </div>
+    </template>
+	<!--元素追加之处-->
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		Vue.component('my-component', {
+    		template: '#myComponent',
+    		data:function(){
+    			return {
+    				message:'Hello Component'
+    			}
+    		}
+		})
+		new Vue({
+		    el: '#app'
+		})
+	</script>
+</body>
+</html>

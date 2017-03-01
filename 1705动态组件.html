@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		动态组件
+		多个组件可以使用同一个挂载点，然后动态地在它们之间切换。使用保留的 <component> 元素，动态地绑定到它的 is 特性：
+	-->
+	 <div id="app">
+	    <button @click="add('a-component', 'testA')">Add A</button>
+	    <button @click="add('b-component', 'testB')">Add B</button>
+	    <ul>
+	    	<!--
+				如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。
+				<keep-alive>
+	    	-->
+	    	<keep-alive>
+	      	<li :is="item.component" :text="item.text" v-for="item in items"></li>
+			</keep-alive>
+			<hr />
+			<li :is="item.component" :text="item.text" v-for="item in items"></li>
+	    </ul>
+  	</div>
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		    var AComponent = Vue.extend({
+			  props: ['text'],
+			  template: '<li>A Component: {{ text }}</li>'
+			})
+
+			var BComponent = Vue.extend({
+			  props: ['text'],
+			  template: '<li>B Component: {{ text }}</li>'
+			})
+
+
+			new Vue({
+			  el: '#app',
+			  components: {
+			    'a-component': AComponent,
+			    'b-component': BComponent,
+			  },
+			  data: {
+			    items: []
+			  },
+			  methods: {
+			    add(component, text) {
+			      this.items.push({
+			        'component': component,
+			        'text': text,
+			      })
+			    }
+			  }
+			})
+	</script>
+</body>
+</html>

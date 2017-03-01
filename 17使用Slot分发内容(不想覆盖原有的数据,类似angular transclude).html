@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>组件</title>
+</head>
+<body>
+	<!--
+		使用 Slot 分发内容
+		在使用组件时，常常要像这样组合它们：
+		<app>
+		  <app-header></app-header>
+		  <app-footer></app-footer>
+		</app>
+		注意两点：
+		<app> 组件不知道它的挂载点会有什么内容。挂载点的内容是由<app>的父组件决定的。
+		<app> 组件很可能有它自己的模版。
+		为了让组件可以组合，我们需要一种方式来混合父组件的内容与子组件自己的模板。这个过程被称为 内容分发 (或 “transclusion” 如果你熟悉 Angular)。Vue.js 实现了一个内容分发 API ，参照了当前 Web 组件规范草案，使用特殊的 <slot> 元素作为原始内容的插槽。
+	-->
+	 <div id="vm">
+        <app></app>
+    </div>
+    <template id="app-header">
+        <div>
+            {{msg}}
+        </div>
+    </template>
+    <template id="app-footer">
+        <div>
+            {{msg}}
+        </div>
+    </template>
+    <template id="app">
+        <div>
+            <!--tag 的组成 demo 
+				父子组件的作用域是独立的;
+            -->
+            {{msg}}
+            <app-header v-show='show'></app-header>
+            <app-footer></app-footer>
+        </div>
+    </template>
+<!--
+
+
+	编译作用域
+
+	在深入内容分发 API 之前，我们先明确内容的编译作用域。假定模板为：
+	<child-component>
+	  {{ message }}
+	</child-component>
+	message 应该绑定到父组件的数据，还是绑定到子组件的数据？答案是父组件。组件作用域简单地说是：
+	父组件模板的内容在父组件作用域内编译；子组件模板的内容在子组件作用域内编译。
+	一个常见错误是试图在父组件模板内将一个指令绑定到子组件的属性/方法：
+	以下无效 
+	<child-component v-show="someChildProperty"></child-component>
+	假定 someChildProperty 是子组件的属性，上例不会如预期那样工作。父组件模板不应该知道子组件的状态。
+	如果要绑定子组件内的指令到一个组件的根节点，应当在它的模板内这么做：
+	Vue.component('child-component', {
+	  // 有效，因为是在正确的作用域内
+	  template: '<div v-show="someChildProperty">Child</div>',
+	  data: function () {
+	    return {
+	      someChildProperty: true
+	    }
+	  }
+	})
+	类似地，分发内容是在父组件作用域内编译。而不是使用template 进行绑定
+	someChildProperty,那么它只会向上查找其父作用域;
+	如果要绑定子组件内的指令到一个组件的根节点，应当在它的模板内做,同上;
+	-->
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		  Vue.component('app-header', {
+	        template: '#app-header',
+	        data: function() {
+	            return {
+	                msg: 'app-header',
+	            }
+	        },
+	    });
+	    Vue.component('app-footer', {
+	        template: '#app-footer',
+	        data: function() {
+	            return {
+	                msg: 'app-footer'
+	            }
+	        },
+	    });
+	    Vue.component('app', {
+	        template: '#app',
+	        data: function() {
+	            return {
+	                msg: '-app-msg-',
+	                show:true
+	            }
+	        },
+	    });
+	    var vm = new Vue({
+	        el: '#vm',
+	        data: {
+	            msg: []
+	        },
+	    });
+	</script>
+</body>
+</html>

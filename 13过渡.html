@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>过渡</title>
+	<style>
+	.fade-enter-active, .fade-leave-active {
+  	  transition: opacity .5s
+	}
+	.fade-enter, .fade-leave-active {
+	  opacity: 0
+	}
+
+	/* 可以设置不同的进入和离开动画 */
+	/* 设置持续时间和动画函数 */
+	.slide-fade-enter-active {
+	  transition: all .3s ease;
+	}
+	.slide-fade-leave-active {
+	  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+	}
+	.slide-fade-enter, .slide-fade-leave-active {
+	  transform: translateX(10px);
+	  opacity: 0;
+	}
+
+	/*效果三demo*/
+	.bounce-enter-active {
+  		animation: bounce-in .5s;
+	}
+	.bounce-leave-active {
+	    animation: bounce-out .5s;
+	}
+	@keyframes bounce-in {
+	  0% {
+	    transform: scale(0);
+	  }
+	  50% {
+	    transform: scale(1.5);
+	  }
+	  100% {
+	    transform: scale(1);
+	  }
+	}
+	@keyframes bounce-out {
+	  0% {
+	    transform: scale(1);
+	  }
+	  50% {
+	    transform: scale(1.5);
+	  }
+	  100% {
+	    transform: scale(0);
+	  }
+	}
+
+	</style>
+</head>
+<body>
+	<!--
+		过渡
+
+		过渡的-CSS-类名
+
+		会有 4 个(CSS)类名在 enter/leave 的过渡中切换
+		v-enter: 定义进入过渡的开始状态。在元素被插入时生效，在下一个帧移除。
+		v-enter-active: 定义进入过渡的结束状态。在元素被插入时生效，在 transition/animation 完成之后移除。
+		v-leave: 定义离开过渡的开始状态。在离开过渡被触发时生效，在下一个帧移除。
+		v-leave-active: 定义离开过渡的结束状态。在离开过渡被触发时生效，在 transition/animation 完成之后移除。
+		
+		v-active-class 进入时状态
+		v-leave-active 离开时状态
+	-->
+	<div id="demo">
+	  <!--效果一-->	
+	  <button v-on:click="show = !show">
+	    Toggle1
+	  </button>
+	  <transition name="fade">
+	  <!--
+	  		开始进入状态，定义离开过渡的结束状态;
+			fade-enter fade-leave-active
+		    开始进入过渡的结束状态, 离开过渡的结束状态;
+			fade-enter-active, .fade-leave-active
+		-->
+	    <p v-if="show">hello</p>
+	  </transition>
+	  <!--效果二-->	
+	   <button @click="show2 = !show2">
+	    Toggle render2
+	  </button>
+	  <transition name="slide-fade">
+	    <p v-if="show2">hello</p>
+	  </transition>
+	  <!--效果三-->
+	  <button @click="show3 = !show3">Toggle show3</button>
+	  <transition name="bounce">
+	    <p v-if="show3">Look at me!</p>
+	  </transition>
+
+
+
+	</div>
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		new Vue({
+		  el: '#demo',
+		  data: {
+		    show: true,
+		    show2: true,
+		    show3:true
+		  }
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		使用javascript的表达式;
+		放在 Mustache 标签内的文本称为绑定表达式
+
+		错误:
+		这是一个语句，不是一个表达式： 
+		{{ var a = 1 }}
+		流程控制也不可以，可改用三元表达式 
+		{{ if (ok) { return message } }}
+	-->
+	<div id="app">
+  		{{ number + 1 }}
+		{{ ok ? 'YES' : 'NO' }}
+		{{ message.split('').reverse().join('') }}
+		<div v-bind:id="'list-' + id"></div>
+	</div>
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		var app = new Vue({
+			el:'#app',
+			data:{
+				number:1000,
+				ok:false,
+				message:'hello vuejs !!'
+			}
+		})
+	</script>
+</body>
+</html>

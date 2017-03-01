@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		计算属性
+	-->
+	<div id="example">
+ 		 a={{ a }}, b={{ b }}
+ 		 <button v-on:click='changeb()'>点我a=200,b=201</button>
+	</div>
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		var vm = new Vue({
+		  //el: '#example',
+		  test:'String',
+		  show:function(){
+		  	alert(1)
+		  },
+		  data: {
+		    a: 1
+		  },
+		  /*
+		  computed: {
+		    // 一个计算属性的 getter,默认是get
+		    b: function () {
+		      // `this` 指向 vm 实例
+		      return this.a + 1
+		    }
+		  }
+		  */
+		  //setter getter;	
+		   computed: {
+			    b: {
+			    	get:function(){
+			    	  return this.a + 1	
+			    	},
+			    	set:function(val){
+			    		this.a = val;
+			    	}
+			    }
+		  	},
+		  	methods:{
+		  		changeb:function(){
+		  			this.b = 200;
+		  		}
+		  	}
+
+		})
+		// el: '#example',假设没有绑定可以进行挂载绑定;
+		// 
+		// 如果 Vue 实例在实例化时没有收到 el 选项，则它处于“未挂载”状态，没有关联的 DOM 元素。可以使用 vm.$mount() 手动地挂载一个未挂载的实例。
+		vm.$mount('#example'); 
+		vm.$el.style.background ='red';
+		vm.$options.show();
+		vm.$destroy;  //销毁
+		console.log(vm.$options.test); //直接获取test的值;
+		console.log(vm.$el);
+		console.log(vm.$data.a);
+	</script>
+</body>
+</html>

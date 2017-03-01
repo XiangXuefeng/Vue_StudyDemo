@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		编写可复用组件
+
+		在编写组件时，记住是否要复用组件有好处。一次性组件跟其它组件紧密耦合没关系，但是可复用组件应当定义一个清晰的公开接口。
+		Vue 组件的 API 来自三部分 - props, events 和 slots ：
+		Props 允许外部环境传递数据给组件
+		Events 允许组件触发外部环境的副作用
+		Slots 允许外部环境将额外的内容组合在组件中。\
+		
+
+		<my-component
+		  :foo="baz"
+		  :bar="qux"
+		  @event-a="doThis"
+		  @event-b="doThat"
+		>
+		  <img slot="icon" src="...">
+		  <p slot="main-text">Hello!</p>
+		</my-component>
+
+
+		子组件索引
+
+		尽管有 props 和 events ，但是有时仍然需要在 JavaScript 中直接访问子组件。为此可以使用 ref 为子组件指定一个索引 ID 。
+
+		尽管有 props 和 events ，但是有时仍然需要在 JavaScript 中直接访问子组件。为此可以使用 ref 为子组件指定一个索引 ID 。例如：
+
+		<div id="parent">
+		  <user-profile ref="profile"></user-profile>
+		</div>
+		var parent = new Vue({ el: '#parent' })
+		// 访问子组件
+		var child = parent.$refs.profile
+		当 ref 和 v-for 一起使用时， ref 是一个数组或对象，包含相应的子组件。
+	-->	
+</body>
+</html>

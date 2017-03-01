@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		具名 Slot
+		<slot> 元素可以用一个特殊的属性 name 来配置如何分发内容。多个 slot 可以有不同的名字。具名 slot 将匹配内容片段中有对应 slot 特性的元素。
+		仍然可以有一个匿名 slot ，它是默认 slot ，作为找不到匹配的内容片段的备用插槽。如果没有默认的 slot ，这些找不到匹配的内容片段将被抛弃。
+		例如，假定我们有一个 app-layout 组件，它的模板为：
+			-->
+	<div id="app">
+	    <app-layout>
+		  <h1 slot="header">这里可能是一个页面标题</h1>
+		  <p>主要内容的一个段落。</p>
+		  <p>另一个主要段落。</p>
+		  <p slot="footer">这里有一些联系信息</p>
+		</app-layout>
+	</div>
+	<!--绑定之外-->
+ 	<template id="my-component">
+        <div class="container">
+       		<!--slot不指定就是父模板标签-->
+        	<slot></slot>
+		    <slot name="header"></slot>
+		    <slot></slot>
+		    <slot name="footer"></slot>
+		</div>
+    </template>
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		var component = Vue.extend({
+		    template: "#my-component"
+		});
+		var dr02 = new Vue({
+		    el: "#app",
+		    components: {
+		        "appLayout": component
+		    }
+		});
+	</script>
+</body>
+</html>

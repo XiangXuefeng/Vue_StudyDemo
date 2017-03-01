@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>$watch</title>
+</head>
+<body>
+	<!--
+		$watch;
+	-->
+	<div id="app">
+  		<span>{{ message }}</span> <br />
+  		<span>{{ myData }}</span> <br />
+  		<button v-on:click='chageMsg()'>修改message信息,$watch监听</button> 
+	</div>
+
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script>
+		var app = new Vue({
+			el:'#app',
+			data:{
+				message:'Hello Vue',
+				myData:{name:'wind',age:20}
+			},
+			methods:{
+				chageMsg:function(){
+					this.myData.name ='Hello Vuejs';
+				}
+			}
+		})
+		//实例方法;
+		// 进行监听，当message数据发生改变;
+		// 这种监视方式是浅度监视;
+		app.$watch('myData',function(){ 
+			alert('myData 发生了改变');
+		});
+
+		//深度监视,能监听数组对象;
+		app.$watch('myData',function(){ 
+			alert('myData 发生了改变');
+		},{ deep: true});
+	</script>
+</body>
+</html>
