@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>事件处理</title>
+</head>
+<body>
+
+	<div id='app'>
+		<h1>{{message}} </h1>
+		<ul>
+			<li>v-for in使用</li>
+			<li v-for = 'sport in sports'>{{sport}}</li>
+			<li>v-text 使用</li>
+			<li v-for = 'sport in sports' v-text='sport'>{</li>
+			<li>获取索引</li>
+			<li v-for = '(sport,index) in sports'>{{index+':'+sport}}</li>
+			<li>v-for of使用</li>
+			<li v-for = 'sport of sports'>{{sport}}</li>
+		</ul>
+		<input type='text' v-model='sport' />
+		<button v-on:click='addSport'>添加</button>
+		<!--快捷语法可以使用@click-->
+	</div>
+	
+	<script type="text/javascript" src='js/vue-2.1.6.js'></script>
+	<script>
+		var app = new Vue({
+			el:'#app',
+			data:{
+				message:'列表渲染',
+				sports:['足球','篮球','排球'],
+				sport:'',
+			},
+			methods:{
+				addSport(){
+					this.sports.push(this.sport);
+					this.sport = '';
+				}
+				//也可以使用
+				//addSport:function(){} 方式;
+			},
+			//#app下的元素执行完毕,触发mounted();
+			/*
+			mounted(){
+				//vuejs有自己的事件方法;
+				document.getElementById('addSport').addEventListener('click',function(){
+					var sport = document.getElementById('sport');
+					if(sport.value){
+						app.sports.push(sport.value);
+						sport.value = '';
+					}
+				});
+			}	
+			*/
+		});
+		
+	</script>
+</body>
+</html>
