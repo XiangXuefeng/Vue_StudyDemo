@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智能社——http://www.zhinengshe.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <style>
+        .gray{
+            background: #ccc;
+        }
+    </style>
+    <script src="https://vuejs.org/js/vue.js"></script>
+ <!--    <script src="https://cdn.bootcss.com/vue-resource/0.7.3/vue-resource.js"></script> -->
+    <script src="https://cdn.bootcss.com/vue-resource/0.8.0/vue-resource.js"></script>
+    <script>
+        window.onload=function(){
+            new Vue({
+                el:'#box',
+                data:{
+                    myData:[],
+                    searchData:'',
+                    url:'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
+                    now:-1
+                },
+                methods:{
+                    getData:function(event){
+                    	//按上下键不给搜索
+                    	if(event.keyCode == 38 || event.keyCode == 40) return;
+                    	//回车键直接进行收索	
+                    	if(event.keyCode==13){
+                            window.open('https://www.baidu.com/s?wd='+this.searchData);
+                            this.searchData='';
+                            return;
+                        }	
+
+                       this.$http.jsonp(this.url,{wd:this.searchData},{jsonp:'cb'})
+                       .then(function(res){
+                       		this.myData = res.data.s;
+                       },function(err){
+                       		console.log(err)
+                       });
+                    },
+                    changeDown:function(){
+                    	this.now++;
+                    	if(this.now == this.myData.length){
+                    		this.now = 0;
+                    	}
+                    	this.searchData = this.myData[this.now];
+                    },
+                    changeUp:function(){
+                    	this.now--;
+                    	if(this.now == -2){
+                    		this.now = this.myData.length -1;
+                    	}
+                    	this.searchData = this.myData[this.now];
+                    }
+                }
+            });
+        };
+    </script>
+</head>
+<body>
+    <div id="box">
+        <input type="text" v-model='searchData' v-on:keyup='getData($event)' v-on:keydown.down.prevent='changeDown()' v-on:keydown.up.prevent='changeUp()'>
+        <ul>
+            <li v-for='(item , key) in myData' v-text='item' v-bind:class='{gray:key==now}'>
+            </li>
+        </ul>
+        <p v-show="myData.length==0">暂无数据...</p>
+    </div>
+</body>
+</html>

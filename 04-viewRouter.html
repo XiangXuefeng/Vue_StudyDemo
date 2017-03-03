@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue-Router</title>
+	<!--vue-router2.1.1  Vue.js v2.1.8-->
+	<script src='https://vuejs.org/js/vue.js'></script>
+	<script src='https://cdn.bootcss.com/vue-router/2.1.1/vue-router.js'></script>
+</head>
+<body>
+	<div id='box'>
+		<ul>
+			<li>
+				<router-link to="/home">主页</router-link>  
+			</li>
+			<li>
+				<router-link to="/news">新闻</router-link>  
+			</li>
+		</ul>
+    	<!-- 路由出口，路由匹配到的组件将渲染在这里 -->  
+		 <router-view></router-view>  
+	</div>
+	<!--模板-->
+	<template id='home'>  
+    	<div class='home'>
+    		<h1>我是主页</h1>  
+	    	<router-link to="/home/login">登录</router-link>
+	    	<router-link to="/home/register">注册</router-link>
+       	 	<router-view></router-view>
+    	</div>
+	</template>  
+	<template id='news'>  
+    	<div class='news'>
+    		<h1>我是新闻</h1>  
+	    	<router-link to="/news/detail/001">001</router-link>
+	    	<router-link to="/news/detail/002">002</router-link>
+	    	<router-link to="/news/detail/003">003</router-link>
+       	 	<router-view></router-view>
+    	</div>  
+	</template> 
+	<template id='login'>  
+    	<h1>我是Login</h1>  
+	</template> 
+	<template id='register'>  
+    	<h1>我是Register</h1>  
+	</template>  
+	<template id='detail'>
+		<div class='detail'>
+			<h2>{{$route.params.id}}-的文章</h2>
+			<h2>{{$route.path}}</h2>
+
+		</div>
+	</template> 
+	<script>
+		//准备根组件
+		var App = Vue.extend();
+
+		//2.Home News组件准备
+		var News = Vue.extend({
+			template:'#news'
+		});
+
+		var Home = Vue.extend({
+			template:'#home'
+		})
+
+		var Login = Vue.extend({
+			template:'#login'
+		})
+		var Register = Vue.extend({
+			template:'#register'
+		})
+		var detail = Vue.extend({
+			template:'#detail'
+		})
+		// 3.准备路由
+		var router = new VueRouter({
+			 routes: [
+			 	{path: '/', component: Home},
+			    {path: '/home', component: Home,
+				     children: [  
+					     {path: 'login', component: Login},
+					     {path: 'register', component: Register}
+				     ]
+            	},
+			    {path: '/news', component: News,
+					 children: [  
+					     {path: 'detail/:id', component: detail},
+				     ]
+				 }
+  			  ]
+		});
+		new Vue({ router:router }).$mount('#box');  
+	</script>
+</body>
+</html>
